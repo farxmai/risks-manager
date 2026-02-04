@@ -1,0 +1,93 @@
+type Query {
+  risks(
+    page: Int = 1
+    limit: Int = 10
+    showResolved: Boolean = true
+    search: String
+  ): RiskConnection!
+
+  categories(
+    page: Int = 1
+    limit: Int = 10
+    search: String
+  ): CategoryConnection!
+
+  category(id: ID!): Category
+}
+
+type Mutation {
+  createRisk(input: CreateRiskInput!): Risk!
+  updateRisk(id: ID!, input: UpdateRiskInput!): Risk!
+  deleteRisk(id: ID!): Boolean!
+
+  createCategory(input: CreateCategoryInput!): Category!
+  updateCategory(id: ID!, input: UpdateCategoryInput!): Category!
+  deleteCategory(id: ID!): Boolean!
+}
+
+type Risk {
+  id: ID!
+  name: String!
+  description: String!
+  category: Category!
+  status: RiskStatus!
+  createdBy: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Category {
+  id: ID!
+  name: String!
+  description: String!
+  createdBy: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type RiskConnection {
+  edges: [Risk!]!
+  pageInfo: PageInfo!
+}
+
+type CategoryConnection {
+  edges: [Category!]!
+  pageInfo: PageInfo!
+}
+
+type PageInfo {
+  currentPage: Int!
+  totalPages: Int!
+  totalCount: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+input CreateRiskInput {
+  name: String!
+  description: String!
+  categoryId: ID!
+  status: RiskStatus = UNRESOLVED
+}
+
+input UpdateRiskInput {
+  name: String
+  description: String
+  categoryId: ID
+  status: RiskStatus
+}
+
+input CreateCategoryInput {
+  name: String!
+  description: String!
+}
+
+input UpdateCategoryInput {
+  name: String
+  description: String
+}
+
+enum RiskStatus {
+  UNRESOLVED
+  RESOLVED
+}
