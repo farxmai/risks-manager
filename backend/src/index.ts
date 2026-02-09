@@ -1,4 +1,5 @@
 import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
 import express from "express";
 import cors from "cors";
 import { readFileSync } from "fs";
@@ -6,6 +7,7 @@ import { join } from "path";
 import dotenv from "dotenv";
 import { connectDB } from "./db";
 import { resolvers } from "./resolvers";
+import { createCategoryLoader, GraphQLContext } from "./context";
 
 dotenv.config();
 
@@ -18,11 +20,9 @@ async function startServer(): Promise<void> {
   const MONGODB_URI =
     process.env.MONGODB_URI ?? "mongodb://localhost:27017/risks-manager";
 
-  // Connect to MongoDB
   await connectDB(MONGODB_URI);
 
-  // Create Apollo Server
-  const server = new ApolloServer({
+  const server = new ApolloServer<GraphQLContext>({
     typeDefs,
     resolvers,
     formatError: (formattedError, error) => {
@@ -33,7 +33,6 @@ async function startServer(): Promise<void> {
 
   await server.start();
 
-  // Apply middleware
   app.use(
     "/graphql",
     cors<cors.CorsRequest>({
@@ -41,6 +40,16 @@ async function startServer(): Promise<void> {
       credentials: true,
     }),
     express.json(),
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        const user = req.headers["x-user"] as string | undefined;
+
+        return {
+          user: user ?? null,
+          categoryLoader: createCategoryLoader(),
+        };
+      },
+    }),
   );
 
   app.listen(PORT, () => {
