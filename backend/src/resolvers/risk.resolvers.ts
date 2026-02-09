@@ -33,7 +33,7 @@ export const riskResolvers = {
     risks: async (
       _parent: unknown,
       args: RisksQueryArgs,
-      _context: GraphQLContext
+      _context: GraphQLContext,
     ) => {
       const page = args.page ?? 1;
       const limit = args.limit ?? 10;
@@ -77,7 +77,7 @@ export const riskResolvers = {
     createRisk: async (
       _parent: unknown,
       { input }: { input: CreateRiskInput },
-      context: GraphQLContext
+      context: GraphQLContext,
     ) => {
       if (!context.user) {
         throw new GraphQLError("You must be logged in to create a risk", {
@@ -108,7 +108,7 @@ export const riskResolvers = {
     updateRisk: async (
       _parent: unknown,
       { id, input }: { id: string; input: UpdateRiskInput },
-      context: GraphQLContext
+      context: GraphQLContext,
     ) => {
       if (!context.user) {
         throw new GraphQLError("You must be logged in to update a risk", {
@@ -145,7 +145,7 @@ export const riskResolvers = {
     deleteRisk: async (
       _parent: unknown,
       { id }: { id: string },
-      context: GraphQLContext
+      context: GraphQLContext,
     ) => {
       if (!context.user) {
         throw new GraphQLError("You must be logged in to delete a risk", {
@@ -163,11 +163,11 @@ export const riskResolvers = {
     category: async (
       parent: { categoryId: mongoose.Types.ObjectId },
       _args: unknown,
-      context: GraphQLContext
+      context: GraphQLContext,
     ) => {
       // Use DataLoader to resolve category (solves N+1 problem)
       const category = await context.categoryLoader.load(
-        parent.categoryId.toString()
+        parent.categoryId.toString(),
       );
       if (!category) {
         throw new GraphQLError("Category not found", {

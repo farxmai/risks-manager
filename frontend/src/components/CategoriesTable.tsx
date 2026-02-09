@@ -136,7 +136,7 @@ export function CategoriesTable(): JSX.Element {
 
   const handleUpdateCategory = (
     id: string,
-    input: { name?: string; description?: string }
+    input: { name?: string; description?: string },
   ): void => {
     void updateCategory({
       variables: { id, input },
@@ -288,7 +288,7 @@ export function CategoriesTable(): JSX.Element {
         </Table>
         {pageInfo && (
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25, 50]}
+            rowsPerPageOptions={[5, 10, 25, 50, 100]}
             component="div"
             count={pageInfo.totalCount}
             rowsPerPage={rowsPerPage}

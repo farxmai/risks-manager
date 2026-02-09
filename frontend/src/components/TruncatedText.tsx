@@ -6,6 +6,9 @@ interface TruncatedTextProps {
   maxLength?: number;
 }
 
+// Component to display truncated text with a tooltip for the full text on hover
+// JUST FOR BETTER VIEW IN TABLES
+
 export function TruncatedText({
   text,
   maxLength = 100,

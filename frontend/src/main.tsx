@@ -8,7 +8,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 
 const theme = createTheme({
   palette: {
-    mode: "light",
+    mode: "dark",
     primary: {
       main: "#1976d2",
     },
@@ -33,5 +33,5 @@ ReactDOM.createRoot(rootElement).render(
         </ThemeProvider>
       </AuthProvider>
     </ApolloProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

@@ -179,7 +179,7 @@ export function RisksTable(): JSX.Element {
       description?: string;
       categoryId?: string;
       status?: RiskStatus;
-    }
+    },
   ): void => {
     void updateRisk({
       variables: { id, input },
@@ -387,7 +387,7 @@ export function RisksTable(): JSX.Element {
         </Table>
         {pageInfo && (
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25, 50]}
+            rowsPerPageOptions={[5, 10, 25, 50, 100]}
             component="div"
             count={pageInfo.totalCount}
             rowsPerPage={rowsPerPage}
